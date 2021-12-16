@@ -2,9 +2,8 @@ import React from "react";
 import classes from "./MyPosts.module.css";
 import Post from "./Post/Post";
 
-
 const MyPosts = (props) => {
-    let postElements = props.posts.map(p => <Post message={p.message}/>);
+    let postElements = props.posts.map((post, index) => <Post key={index} message={post.message}/>);
     let newPostElement = React.createRef();
 
     let onAddPost = () => {
