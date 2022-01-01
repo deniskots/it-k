@@ -1,35 +1,40 @@
 import React from "react";
 import styles from "./Users.module.css";
+import * as axios from "axios";
+import UserPhoto from "../../assets/images/user.png"
 
-let Users = (props) => {
-        if (props.users.length === 0) {
-            props.setUsers( [
-                {id: 1, photoUrl: 'https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png', followed: true, fullName: 'Denis', status: 'I am a boss', location: {city: 'Kiev', country: 'Ukraine'}},
-                {id: 2, photoUrl: 'https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png', followed: true, fullName: 'Sacha', status: 'I am a boss', location: {city: 'London', country: 'England'}},
-                {id: 3, photoUrl: 'https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png', followed: false, fullName: 'Ivan', status: 'I am a boss', location: {city: 'Paris', country: 'France'}},
-                {id: 4, photoUrl: 'https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png', followed: true, fullName: 'Susy', status: 'I am a boss', location: {city: 'Moscow', country: 'Russia'}},
-                {id: 5, photoUrl: 'https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png', followed: true, fullName: 'Adrian', status: 'I am a boss', location: {city: 'Berlin', country: 'Germany'}},
-                {id: 6, photoUrl: 'https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png', followed: false, fullName: 'John', status: 'I am a boss', location: {city: 'New-York', country: 'USA'}},
-            ]);
-        };
-    return <div>
-        {
-            props.users.map( u => <div key = {u.id}>
+class Users extends React.Component {
+    constructor(props) {
+        super(props);
+
+            axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response => {
+                this.props.setUsers(response.data.items);
+            });
+    }
+
+    render() {
+        return <div>
+            {
+                this.props.users.map(u => <div key={u.id}>
                 <span>
                     <div>
-                        <img src={u.photoUrl} className={styles.userPhoto}/>
+                        <img src={u.photos.small != null ? u.photos.small : UserPhoto} className={styles.userPhoto} alt={""}/>
                     </div>
                     <div>
                         {u.followed
-                            ? <button onClick= { () => { props.unfollow(u.id) } }> Unfollow </button>
-                            : <button onClick = { () => { props.follow(u.id) } }> Follow  </button>
+                            ? <button onClick={() => {
+                                this.props.unfollow(u.id)
+                            }}> Unfollow </button>
+                            : <button onClick={() => {
+                                this.props.follow(u.id)
+                            }}> Follow </button>
                         }
                     </div>
                 </span>
-                <span>
+                    <span>
                     <span>
                         <div>
-                            {u.fullName}
+                            {u.name}
                         </div>
                         <div>
                             {u.status}
@@ -37,16 +42,19 @@ let Users = (props) => {
                     </span>
                     <span>
                         <div>
-                            {u.location.country}
+                            {"u.location.country"}
                         </div>
-                        <div>{u.location.city}</div>
+                        <div>{"u.location.city"}</div>
                     </span>
                 </span>
 
-            </div> )
-        }
-    </div>
-};
-
+                </div>)
+            }
+        </div>
+    };
+}
 
 export default Users;
+
+
+

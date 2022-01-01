@@ -30,6 +30,11 @@ const Navbar = () => {
                 Settings
             </NavLink>
         </div>
+        <div className={classes.item}>
+            <NavLink to="/users" className={({isActive}) => isActive? `${classes.activeLink}`:""}>
+                Users
+            </NavLink>
+        </div>
     </nav>
 }
 export default Navbar;
