@@ -16,6 +16,11 @@ const Navbar = () => {
             </NavLink>
         </div>
         <div className={classes.item}>
+            <NavLink to="/users" className={({isActive}) => isActive? `${classes.activeLink}`:""}>
+                Users
+            </NavLink>
+        </div>
+        <div className={classes.item}>
             <NavLink to="/news" className={({isActive}) => isActive? `${classes.activeLink}`:""}>
                 News
             </NavLink>
@@ -30,11 +35,7 @@ const Navbar = () => {
                 Settings
             </NavLink>
         </div>
-        <div className={classes.item}>
-            <NavLink to="/users" className={({isActive}) => isActive? `${classes.activeLink}`:""}>
-                Users
-            </NavLink>
-        </div>
+
     </nav>
 }
 export default Navbar;
